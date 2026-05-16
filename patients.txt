@@ -1,0 +1,6 @@
+P001,Fathy,18,Male,+20189732133,D004,fathy_u,fathy_pass321
+P002,Emara,18,Male,+203897832312,D004,emara_u,emara_pass321
+P003,Alaa,19,Male,+20102983213,D001,alaa_u,alaa_pass321
+P004,Boody,20,Male,+2048798312,D003,boody_u,boody_pass321
+P005,Omar,18,Male,+2019249832,None,omar_u,omar_pass321
+P006,Shams,19,Female,+20287832971,D002,shams_u,shams_pass321
