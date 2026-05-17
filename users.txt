@@ -10,6 +10,4 @@ patient,alaa_u,alaa_pass321
 patient,boody_u,boody_pass321
 patient,omar_u,omar_pass321
 patient,shams_u,shams_pass321
-patient,3,d
-patient,yasseen,yass-pass321
-patient,o,e
+
