@@ -38,8 +38,8 @@ A robust, console-based **Hospital Appointment Management System** built in Java
 ## 👥 Contributors & Development Team
 This project was designed and engineered collaboratively by a team of 5 developers:
 
-* **Omar Sherif** - *Cybersecurity & Systems Engineering* - [GitHub Profile](https://github.com/OmarSherif-Eng)
-* **Teammate 2 Name** - *Role/Focus* - [GitHub Profile](https://github.com/username2)
-* **Teammate 3 Name** - *Role/Focus* - [GitHub Profile](https://github.com/username3)
-* **Teammate 4 Name** - *Role/Focus* - [GitHub Profile](https://github.com/username4)
-* **Teammate 5 Name** - *Role/Focus* - [GitHub Profile](https://github.com/username5)
+* **Omar Sherif** - *FileManager class - Appointment class* - [GitHub Profile](https://github.com/OmarSherif-Eng)
+* **Abdallah Fathy** - *User base class - HospitalSystem class- Main class* - [GitHub Profile](https://github.com/abdallah-fathy07)
+* **Abdallah Emara** - *Patient class* - [GitHub Profile](https://github.com/Abdullah2-0-0-7)
+* **Ahmed Alaa** - *Admin class* - [GitHub Profile] -> not provided.
+* **Abdelrahman Hesham** - *Doctor class* - [GitHub Profile] -> not provided.
