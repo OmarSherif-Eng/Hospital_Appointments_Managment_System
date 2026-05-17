@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Admin extends User {
@@ -32,7 +33,8 @@ public class Admin extends User {
             System.out.println("10. Generate Reports");
             System.out.println("11. Save Data");
             System.out.println("12. Logout");
-            int choice = input.nextInt();
+            try {
+                int choice = input.nextInt();
             
             switch(choice) {
                 case 1 -> addDoctor();
@@ -114,7 +116,12 @@ public class Admin extends User {
                     
                 default -> System.out.println("Invalid choice.");
             
-            }                       
+            }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number from the menu.");
+                input.nextLine();
+            }
+                                   
         }
     }
     
@@ -149,19 +156,32 @@ public class Admin extends User {
     public void registerPatient() {
         input.nextLine();
         System.out.println("Add Patient : ");
-        System.out.println("Enter Name : ");
-        String patientName = input.nextLine();
+        System.out.println("Enter First Name : ");
+        String patientName = input.next();
+        input.nextLine();
         System.out.println("Enter Username : ");
         String userName = input.nextLine();
         System.out.println("Enter Password : ");
         String patientPassword = input.nextLine();
         System.out.println("Enter Phone Number : ");
         String phoneNumber = input.nextLine();
-        System.out.println("Enter Age : ");
-        int age = input.nextInt();
-        input.nextLine();
+        int age = 0;
+        while (true) { 
+            System.out.println("Enter Age : ");
+            try {
+                age = input.nextInt();
+                input.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number for age.");
+                input.nextLine();
+            }
+            
+        }
+        
+        
         System.out.println("Enter Gender : ");
-        String gender = input.nextLine();
+        String gender = input.next();
         Patient.addPatient(patientName, userName, patientPassword, phoneNumber, age, gender, null);
         System.out.println("Patient registered.");
     }
@@ -185,27 +205,45 @@ public class Admin extends User {
             return;
         }
         input.nextLine();
-        System.out.println("Enter Date (Year-Month-Day)");
-        String date = input.nextLine();
-        System.out.println("Enter Time (HH:MM): ");
-        String time = input.nextLine();
-
+        String date, time;
+        while (true) { 
+          try {
+            System.out.println("Enter Date (Year-Month-Day)");
+            date = input.nextLine().trim();
+            if(!Appointment.checkDateFormat(date))
+                throw new Exception("Invalid Date! Please enter date in format (Year-Month-Day) and use \'-\' not \\");
+            else break;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }  
+        }
+        
+        while (true) { 
+            try {
+                System.out.println("Enter Time (HH:MM): ");
+                time = input.nextLine().trim(); 
+                if(Appointment.checkTimeFormat(time))
+                    break;
+                else throw new Exception("Invalid Time! Please enter time in format (Hours:Minutes) without spaces.");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
         if(!Appointment.isValidateTime(date , time)) {
             return;
         }
-
         if(Appointment.isDoubleBooked(Appointment.appointments, date, time)) {
             return;
         }
-
         Appointment newAppointment = new Appointment(patientID, doctorID, date,time, Status.CONFIRMED);
         Appointment.appointments.add(newAppointment);
         Patient.patients.get(patientID-1).appointments.add(newAppointment);
         Patient.patients.get(patientID-1).getAssignedDoctor().myAppointments.add(newAppointment);
         System.out.println("Appointment created.");
     }
-    
-    public void viewAllDoctors() {
+        
+
+      public void viewAllDoctors() {
         if(Doctor.doctors.isEmpty()) {
             System.out.println("there is no Doctors.");
         } else {
@@ -273,9 +311,6 @@ public class Admin extends User {
         System.out.println("Assign Patient to Doctor.");
         System.out.println("Enter the patient id : ");
         int patientID = input.nextInt();
-        System.out.println("Enter the doctor id : ");
-        int doctorID = input.nextInt();
-        
         Patient foundPatient = null;
         for (Patient p : Patient.patients) {
             if (p.getPatientID() == patientID) {
@@ -283,6 +318,14 @@ public class Admin extends User {
                 break;
             }
         }
+        if (foundPatient == null) {
+            System.out.println("Patient not found.");
+            return;
+        }
+        System.out.println("Enter the doctor id : ");
+        int doctorID = input.nextInt();
+        
+        
 
         Doctor foundDoctor = null;
         for (Doctor d : Doctor.doctors) {
@@ -292,10 +335,7 @@ public class Admin extends User {
             }
         }
 
-        if (foundPatient == null) {
-            System.out.println("Patient not found.");
-            return;
-        }
+        
         if (foundDoctor == null) {
             System.out.println("Doctor not found.");
             return;
@@ -304,5 +344,11 @@ public class Admin extends User {
         foundPatient.setAssignedDoctor(foundDoctor);
         foundDoctor.assignedPatients.add(foundPatient);
         System.out.println("Patient " + foundPatient.getName() + " assigned to Dr. " + foundDoctor.getName());
-    }    
-}
+    }  
+
+        
+
+        
+    }
+    
+        

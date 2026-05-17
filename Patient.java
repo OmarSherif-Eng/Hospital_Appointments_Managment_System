@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Patient extends User {
     private final int patientID;
@@ -78,7 +79,7 @@ public class Patient extends User {
         String date = input.next().trim();
         System.out.print("Enter the time: ");
         String time = input.next().trim();
-        boolean validation = Appointment.checkTimeAndDate(date, time)&&Appointment.isValidateTime(date, time)&&Appointment.checkDate_TimeFormat(date, time);
+        boolean validation = Appointment.checkTimeAndDate(date, time) && Appointment.isValidateTime(date, time) && Appointment.checkDateFormat(date) && Appointment.checkTimeFormat(time);
         if(validation) {
             Appointment newAppointment = new Appointment(this.patientID,this.assignedDoctor.getDoctorID(),date,time,Status.CONFIRMED);
             Appointment.appointments.add(newAppointment);
@@ -100,8 +101,21 @@ public class Patient extends User {
         System.out.print("Enter the Appointment ID: ");
         int ap = input.nextInt();
         for(Appointment a: appointments) {
-            if(a.getAppointmentID()==ap)
-                a.setStatus(Status.CANCELLED);
+            if(a.getAppointmentID()==ap) {
+                if(null == a.getStatus()) {
+                    a.setStatus(Status.CANCELLED);
+                    System.out.println("Appointment cancelled successfully.");
+                } else switch (a.getStatus()) {
+                    case COMPLETED -> System.out.println("Error: You cannot cancel an already complete appointment.");
+                    case CANCELLED -> System.out.println("Appointment is already cancelled.");
+                    default -> {
+                        a.setStatus(Status.CANCELLED);
+                        System.out.println("Appointment cancelled successfully.");
+                    }
+                }
+                
+            }
+                
         }
     }
     @Override
@@ -113,6 +127,7 @@ public class Patient extends User {
             System.out.println("4. Book Appointment");
             System.out.println("5. Cancel Appointment");
             System.out.println("6. Logout");
+            try {
             int op = input.nextInt();
             switch(op) {
                 case 1 -> this.displayInfo();
@@ -125,6 +140,12 @@ public class Patient extends User {
                 }
                 default -> System.out.println("Invalid option");
             }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number from the menu.");
+                input.nextLine();
+            }
+            
         }
     }
     

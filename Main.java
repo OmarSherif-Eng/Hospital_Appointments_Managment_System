@@ -19,9 +19,7 @@ public class Main {
                     case 1 -> login(system, input, "Admin");
                     case 2 -> login(system, input, "Doctor");
                     case 3 -> login(system, input, "Patient");
-                    case 4 -> //system.saveAll();
-                        //System.out.println("Data Saved");
-                        running=false;
+                    case 4 -> running=false;
                     default -> System.out.println("Invalid choice");
                 }
                 } catch (InputMismatchException e) {

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Doctor extends User {
@@ -54,8 +55,8 @@ public class Doctor extends User {
         System.out.println("3.View appointments");
         System.out.println("4.Update appointment status");
         System.out.println("5.Logout");
-
-        int Doctor = input.nextInt();
+        try {
+            int Doctor = input.nextInt();
             switch (Doctor) {
                 case 1 -> displayInfo();
 
@@ -135,6 +136,11 @@ public class Doctor extends User {
             }
                 default -> System.out.println("Invalid choice");
             }
+        } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number from the menu.");
+                input.nextLine();
+            }
+        
         }
     
     }

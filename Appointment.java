@@ -27,7 +27,7 @@ public class Appointment {
         this.date = date;
         this.doctorID = doctorID;
         this.patientID = patientID;
-        this.appointmentStatus = Status.valueOf(appointmentStatus);
+        this.appointmentStatus = Status.valueOf(appointmentStatus.trim().toUpperCase());
         this.time = time;
     }
     public void displayInfo() {
@@ -74,26 +74,50 @@ public class Appointment {
     public void setStatus(Status appointmentStatus) {
         this.appointmentStatus = appointmentStatus;
     }
-    public static boolean checkDate_TimeFormat(String date,String time)
+    public static boolean checkDateFormat(String date)
     {
+        if(date.length() > 10 || date.length() < 8)
+            return false;
         boolean validDate = false;
-        boolean validTime = false;
+        boolean checkYear_Month_DayNumbers = true;
+        boolean checkYearSize = (date.charAt(4)=='-');
+        boolean checkMonthSize = (date.charAt(6) == '-' || date.charAt(7) == '-');
         int num_ = 0;
-        for(int i = 1;i < date.length();i++) {
+        for(int i = 0;i < date.length();i++) {
+            if((date.charAt(i) < '0' || date.charAt(i) > '9') && date.charAt(i) != '-') {
+                checkYear_Month_DayNumbers = false;
+                break;
+            }
             if(date.charAt(i)=='-') {
                 num_++;
             }
         }
-        for(int i = 1;i < time.length();i++) {
-            if(time.charAt(i)==':') {
-                validTime = true;
-                break;
-            }
-        }
+         
         
         if(num_==2)
             validDate = true;
-        return validDate&&validTime;
+        return validDate && checkYear_Month_DayNumbers && checkYearSize && checkMonthSize;
+    }
+
+    public static boolean checkTimeFormat(String time) {
+        if(time.length() < 3 || time.length() > 5)
+            return false;
+        int colonNum = 0;
+        boolean validTime = false;
+        boolean checkHours_MinutesNumbers = true;
+        boolean checkHourSize = (time.charAt(1) == ':' || time.charAt(2) == ':');
+        for(int i = 0;i < time.length();i++) {
+            if ((time.charAt(i) < '0' || time.charAt(i) > '9') && time.charAt(i) != ':') {
+                checkHours_MinutesNumbers = false;
+                break;
+            }
+            if(time.charAt(i)==':') {
+                colonNum++;
+            }
+        }
+        if(colonNum  == 1)
+            validTime = true;
+        return validTime && checkHours_MinutesNumbers && checkHourSize;
     }
     
     public static boolean checkTimeAndDate(String date,String time)
